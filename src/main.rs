@@ -180,9 +180,9 @@ async fn find(State(state): State<Arc<Context>>,axum::extract::Query(params): ax
 		match v{
 			Ok(id)=>{
 				println!("cache hit {}",id);
-				let object=state.s3_client.get_object_attributes().bucket(&state.bucket_name).key(&id).send().await;
-				if object.is_err(){
-					eprintln!("no object");
+				let object=state.s3_client.get_object_tagging().bucket(&state.bucket_name).key(&id).send().await;
+				if let Err(e)=object{
+					eprintln!("no object {:?}",e);
 					let _: Result<(), redis::RedisError>=redis.del(format!("{}/{}/complete",key,params.version)).await;
 					let _: Result<(), redis::RedisError>=redis.del(format!("{}",id)).await;
 					return response_json(StatusCode::NO_CONTENT,None);
