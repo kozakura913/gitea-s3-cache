@@ -11,7 +11,7 @@ RUN --mount=type=cache,target=/var/cache/cargo --mount=type=cache,target=/app/ta
 FROM public.ecr.aws/docker/library/alpine:latest
 ARG UID="982"
 ARG GID="982"
-RUN addgroup -g "${GID}" giteacache && adduser -u "${UID}" -G giteacache -D -h /gitea-s3-cache -s /bin/sh proxy
+RUN addgroup -g "${GID}" giteacache && adduser -u "${UID}" -G giteacache -D -h /gitea-s3-cache -s /bin/sh giteacache
 WORKDIR /gitea-s3-cache
 USER giteacache
 COPY --from=build_app /app/gitea-s3-cache ./gitea-s3-cache
