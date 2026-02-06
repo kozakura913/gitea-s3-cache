@@ -190,7 +190,7 @@ async fn find(State(state): State<Arc<Context>>,axum::extract::Query(params): ax
 				let url = std::env::var("BASE_URL").expect("BASE_URL");
 				let json=serde_json::json!({
 					"result": "hit",
-					"archiveLocation":format!("http://10.1.80.100:8088/_apis/artifactcache/artifacts/{}",id),
+					"archiveLocation":format!("{}/_apis/artifactcache/artifacts/{}",url,id),
 					"cacheKey": key,
 				}).to_string();
 				return response_json(StatusCode::OK,Some(json));
